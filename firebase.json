@@ -1,12 +1,13 @@
 {
-    
   "hosting": {
-    "public": "dist",
+    "site": "addoportal",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
+
     "rewrites": [
       {
         "source": "**",
