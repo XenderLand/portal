@@ -45,7 +45,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
               Admin Panel
             </span>
           </div>
-          <p className="text-xs text-gray-500 mt-1">Cdr Addo's Vault</p>
+          <p className="text-xs text-gray-500 mt-1">Cdr Adoo's Vault</p>
         </div>
 
         {/* Navigation */}

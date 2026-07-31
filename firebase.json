@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "addoportal",
+    "site": "Adooportal",
     "public": "public",
     "ignore": [
       "firebase.json",

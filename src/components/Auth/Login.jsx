@@ -56,11 +56,11 @@ const handleGoogleSignIn = async () => {
           <div className="inline-flex items-center gap-2 bg-white/5 p-4 rounded-2xl">
             <Upload className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-              Cdr Addo's Vault
+              Cdr Adoo's Vault
             </span>
           </div>
           <h2 className="text-2xl font-bold mt-6">Welcome Back</h2>
-          <p className="text-gray-400 mt-2">Sign into Cdr Addo's Vault</p>
+          <p className="text-gray-400 mt-2">Sign into Cdr Adoo's Vault</p>
         </div>
 
         {/* Sign In Card */}
