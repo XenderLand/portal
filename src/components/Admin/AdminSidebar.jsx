@@ -34,7 +34,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="hidden lg:block fixed inset-y-0 left-0 w-64 bg-dark-secondary border-r border-white/10">
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full mt-14">
         {/* Logo */}
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-2">
@@ -43,7 +43,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
               Admin Panel
             </span>
           </div>
-          <p className="text-xs text-gray-500 mt-1">Cdr Adoo's Vault</p>
+          <p className="text-xs text-primary mt-1">Adoo's Private Vault</p>
         </div>
 
         {/* Navigation */}

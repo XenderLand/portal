@@ -73,7 +73,7 @@ const UsernameLogin = () => {
           <div className="inline-flex items-center gap-2 bg-white/5 p-4 rounded-2xl">
             <Upload className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-              Secure Upload
+              Adoo's Private Vault
             </span>
           </div>
           <h2 className="text-2xl font-bold mt-6">Welcome Back</h2>

@@ -44,7 +44,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/dashboard')}>
             <Upload className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg">Secure Upload</span>
+            <span className="font-bold text-lg">Adoo's Private Vault</span>
           </div>
 
           <div className="flex items-center gap-4">
