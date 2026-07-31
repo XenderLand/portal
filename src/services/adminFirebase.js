@@ -87,6 +87,8 @@ export const getFilesByUser = async (userId) => {
   }
 };
 
+
+
 // Get all users
 export const getAllUsers = async () => {
   try {
@@ -94,11 +96,33 @@ export const getAllUsers = async () => {
     const snapshot = await getDocs(usersRef);
     const users = [];
     snapshot.forEach((doc) => {
-      users.push({ id: doc.id, ...doc.data() });
+      users.push({ 
+        uid: doc.id, 
+        ...doc.data() 
+      });
     });
     return users;
   } catch (error) {
     console.error('Error getting users:', error);
+    throw error;
+  }
+};
+
+export const getUserFiles = async (userId) => {
+  try {
+    const q = query(
+      collection(db, 'files'),
+      where('userId', '==', userId),
+      orderBy('uploadedAt', 'desc')
+    );
+    const snapshot = await getDocs(q);
+    const files = [];
+    snapshot.forEach((doc) => {
+      files.push({ id: doc.id, ...doc.data() });
+    });
+    return files;
+  } catch (error) {
+    console.error('Error getting user files:', error);
     throw error;
   }
 };
@@ -109,7 +133,7 @@ export const getUserById = async (userId) => {
     const userRef = doc(db, 'users', userId);
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
-      return { id: userDoc.id, ...userDoc.data() };
+      return { uid: userDoc.id, ...userDoc.data() };
     }
     return null;
   } catch (error) {
@@ -117,7 +141,6 @@ export const getUserById = async (userId) => {
     throw error;
   }
 };
-
 // Delete a file (admin)
 export const adminDeleteFile = async (fileId, filePath) => {
   try {
@@ -194,38 +217,20 @@ export const getFileUrl = async (filePath) => {
 // ===================== USER MANAGEMENT =====================
 
 // Get user stats
-export const getUserStats = async () => {
+export const getUserStats = async (userId) => {
   try {
-    const usersSnapshot = await getDocs(collection(db, 'users'));
-    const filesSnapshot = await getDocs(collection(db, 'files'));
-    
+    const files = await getUserFiles(userId);
     let totalSize = 0;
-    const fileTypes = {};
-    const uploadsByDay = {};
+    let totalUploads = files.length;
     
-    filesSnapshot.forEach((doc) => {
-      const data = doc.data();
-      totalSize += data.size || 0;
-      
-      // Count file types
-      const type = data.type || 'unknown';
-      fileTypes[type] = (fileTypes[type] || 0) + 1;
-      
-      // Count uploads by day
-      if (data.uploadedAt) {
-        const date = data.uploadedAt.toDate ? 
-          data.uploadedAt.toDate().toDateString() : 
-          new Date(data.uploadedAt).toDateString();
-        uploadsByDay[date] = (uploadsByDay[date] || 0) + 1;
-      }
+    files.forEach((file) => {
+      totalSize += file.size || 0;
     });
     
     return {
-      totalUsers: usersSnapshot.size,
-      totalFiles: filesSnapshot.size,
-      totalStorage: totalSize,
-      fileTypes,
-      uploadsByDay
+      totalFiles: files.length,
+      totalSize: totalSize,
+      totalUploads: totalUploads
     };
   } catch (error) {
     console.error('Error getting user stats:', error);
@@ -233,35 +238,6 @@ export const getUserStats = async () => {
   }
 };
 
-// Delete user (admin)
-export const adminDeleteUser = async (userId) => {
-  try {
-    // Delete all user files first
-    const userFiles = await getFilesByUser(userId);
-    const batch = writeBatch(db);
-    
-    for (const file of userFiles) {
-      // Delete from storage
-      const storageRef = ref(storage, file.path);
-      await deleteObject(storageRef);
-      // Delete from Firestore
-      const fileRef = doc(db, 'files', file.id);
-      batch.delete(fileRef);
-    }
-    
-    // Delete user from Firestore
-    const userRef = doc(db, 'users', userId);
-    batch.delete(userRef);
-    
-    await batch.commit();
-    
-    // Delete user from Auth (requires admin SDK, handled in cloud function)
-    return { success: true, message: 'User deleted successfully' };
-  } catch (error) {
-    console.error('Error deleting user:', error);
-    throw error;
-  }
-};
 
 // ===================== ANALYTICS =====================
 
@@ -333,3 +309,73 @@ export const exportFilesCSV = async () => {
     throw error;
   }
 };
+
+
+
+
+
+
+
+
+
+
+// Update user (admin)
+export const adminUpdateUser = async (userId, updateData) => {
+  try {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, {
+      ...updateData,
+      updatedAt: serverTimestamp(),
+      updatedBy: 'admin'
+    });
+    return { success: true, message: 'User updated successfully' };
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  }
+};
+
+// Delete user (admin)
+export const adminDeleteUser = async (userId) => {
+  try {
+    // Get all user files
+    const userFiles = await getUserFiles(userId);
+    
+    // Delete each file from storage and Firestore
+    for (const file of userFiles) {
+      // Delete from storage
+      const storageRef = ref(storage, file.path);
+      await deleteObject(storageRef);
+      
+      // Delete from Firestore
+      const fileRef = doc(db, 'files', file.id);
+      await deleteDoc(fileRef);
+    }
+    
+    // Delete user from Firestore
+    const userRef = doc(db, 'users', userId);
+    await deleteDoc(userRef);
+    
+    return { success: true, message: 'User deleted successfully' };
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw error;
+  }
+};
+
+// Update user role
+export const updateUserRole = async (userId, newRole) => {
+  try {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, {
+      role: newRole,
+      updatedAt: serverTimestamp(),
+      updatedBy: 'admin'
+    });
+    return { success: true, message: `User role updated to ${newRole}` };
+  } catch (error) {
+    console.error('Error updating user role:', error);
+    throw error;
+  }
+};
+

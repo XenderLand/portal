@@ -87,7 +87,7 @@ const FileTable = ({
 
   const handleDownload = async (filePath, fileName) => {
     try {
-      setLoading(prev => ({ ...prev, ['download']: true }));
+      setLoading(prev => ({ ...prev, download: true }));
       const url = await getFileUrl(filePath);
       const a = document.createElement('a');
       a.href = url;
@@ -97,9 +97,12 @@ const FileTable = ({
       toast.error('Failed to download file');
       console.error(error);
     } finally {
-      setLoading(prev => ({ ...prev, ['download']: false }));
+      setLoading(prev => ({ ...prev, download: false }));
     }
   };
+
+  
+
 
   if (files.length === 0) {
     return (

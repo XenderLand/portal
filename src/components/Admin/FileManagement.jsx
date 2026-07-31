@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FileTable from './FileTable';
-import FileFilters from './FileFilters';
+// import FileFilters from './FileFilters';
 import BulkActions from './BulkActions';
 import { adminBulkDeleteFiles, exportFilesCSV } from '../../services/adminFirebase';
 import { toast } from 'react-toastify';

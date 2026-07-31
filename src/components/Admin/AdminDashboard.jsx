@@ -131,7 +131,8 @@ const AdminDashboard = () => {
       <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className="flex-1 lg:ml-64">
-        <div className="p-6">
+        {loading && (
+ <div className="p-6">
           <div className="mb-8">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
               Admin Dashboard
@@ -166,6 +167,8 @@ const AdminDashboard = () => {
             <FileAnalytics stats={stats} />
           )}
         </div>
+        )}
+       
       </div>
     </div>
   );
