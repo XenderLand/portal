@@ -30,21 +30,11 @@ const Navbar = () => {
             <span className="font-bold text-lg">Cdr Addo's Vault</span>
           </div>
 
-          <div className="flex items-center gap-4">           
+          <div className="flex items-center gap-4">
+                       
             {user && (
               <>
-               
-                 {isAdmin ? (
-        <button
-          onClick={() => navigate('/admin')}
-          className="flex text-primary hover:text-primary/80 transition"
-        >
-          <Shield className="h-5 w-5" /> Admin
-        </button>
-                     
-      ):(    
-        <>
-       <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   {user.photoURL ? (
                     <img 
                       src={user.photoURL} 
@@ -55,19 +45,23 @@ const Navbar = () => {
                     <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
                       <User className="h-4 w-4 text-primary" />
                     </div>
-                    
                   )}
+                  <span className="text-sm hidden md:block">{user.displayName}</span>
                 </div>
-                      <span className="text-sm hidden md:block">{user.displayName}</span>
-                       </>
-
- )}
-                <button
-                  onClick={handleLogout}
-                  className="p-2 hover:bg-white/10 rounded-lg transition text-gray-400 hover:text-white"
-                >
-                  <LogOut className="h-4 w-4" />
-                </button>
+                 {isAdmin && (
+       <button
+                onClick={() => navigate('/admin')}
+                className="flex text-primary border border-primary px-2 py-1 rounded-md hover:text-primary/80 transition"
+              >
+                <Shield className="h-5 w-5 mr-1 " /> Admin
+              </button>
+      )}
+                 <button
+                                 onClick={handleLogout}
+                                 className=" flex px-2 py-1 border border-red-500 hover:bg-white/10 rounded-lg transition text-red-500 hover:text-white"
+                               >
+                                 <LogOut className="h-4 w-4 mr-1" /> Logout
+                               </button>
               </>
             )}
           </div>
