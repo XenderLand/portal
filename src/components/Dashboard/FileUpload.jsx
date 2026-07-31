@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { useAuth } from '../../hooks/useAuth';
 import { uploadFile } from '../../services/firebase';
 import { toast } from 'react-toastify';
-import { Upload, Loader2, CheckCircle, AlertCircle, X, Trash2, RefreshCw } from 'lucide-react';
+import { Upload, Loader2, CheckCircle, AlertCircle, X,  RefreshCw } from 'lucide-react';
 
 const FileUpload = ({ onUploadComplete, setIsUploading }) => {
   const { user } = useAuth();
