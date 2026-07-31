@@ -3,7 +3,6 @@ import {
   LayoutDashboard, 
   FileText, 
   Users, 
-  BarChart3, 
   Settings,
   LogOut,
   Shield,
@@ -20,7 +19,6 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
     { id: 'overview', icon: LayoutDashboard, label: 'Overview' },
     { id: 'files', icon: FileText, label: 'Files' },
     { id: 'users', icon: Users, label: 'Users' },
-    { id: 'analytics', icon: BarChart3, label: 'Analytics' },
     { id: 'settings', icon: Settings, label: 'Settings' },
   ];
 

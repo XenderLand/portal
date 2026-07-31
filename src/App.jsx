@@ -1,14 +1,14 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Login from './components/Auth/Login';
-import Dashboard from './components/Dashboard/Dashboard';
+import UsernameLogin from './components/Auth/UsernameLogin';
+import UserDashboard from './components/Admin/UserDashboard';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import Navbar from './components/Layout/Navbar';
 import ProtectedRoute from './components/Layout/ProtectedRoute';
+import AdminRoute from './components/Layout/AdminRoute';
 
 const App = () => {
   return (
@@ -25,16 +25,16 @@ const App = () => {
           pauseOnHover
         />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<UsernameLogin />} />
           <Route path="/dashboard" element={
             <ProtectedRoute>
-              <Dashboard />
+              <UserDashboard />
             </ProtectedRoute>
           } />
           <Route path="/admin" element={
-            <ProtectedRoute>
+            <AdminRoute>
               <AdminDashboard />
-            </ProtectedRoute>
+            </AdminRoute>
           } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

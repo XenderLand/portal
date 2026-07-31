@@ -3,6 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import { getFirestore, collection, addDoc, query, where, getDocs, deleteDoc, doc, onSnapshot, orderBy, serverTimestamp } from 'firebase/firestore';
 
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
   authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
@@ -25,43 +26,61 @@ export const googleProvider = new GoogleAuthProvider();
 export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 export const logOut = () => signOut(auth);
 
-// Storage Functions
-export const uploadFile = async (file, userId, onProgress) => {
-  const fileId = `${Date.now()}_${file.name}`;
-  const storageRef = ref(storage, `users/${userId}/${fileId}`);
-  
-  const uploadTask = uploadBytesResumable(storageRef, file);
 
-  return new Promise((resolve, reject) => {
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        if (onProgress) onProgress(progress);
-      },
-      (error) => {
-        reject(error);
-      },
-      async () => {
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        
-        // Save file metadata to Firestore
-        const fileData = {
-          name: file.name,
-          size: file.size,
-          type: file.type,
-          url: downloadURL,
-          path: `users/${userId}/${fileId}`,
-          userId: userId,
-          uploadedAt: serverTimestamp(),
-          fileId: fileId
-        };
-        
-        const docRef = await addDoc(collection(db, 'files'), fileData);
-        resolve({ ...fileData, id: docRef.id });
-      }
-    );
-  });
+// Your upload function
+
+// In your upload function
+export const uploadFile = async (file, userId, onProgress) => {
+  try {
+    console.log('📤 Uploading for userId:', userId);
+    
+    const fileId = `${Date.now()}_${file.name}`;
+    const storageRef = ref(storage, `users/${userId}/${fileId}`);
+    
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          if (onProgress) onProgress(progress);
+        },
+        (error) => reject(error),
+        async () => {
+          try {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            
+            const fileData = {
+              name: file.name,
+              size: file.size,
+              type: file.type || 'unknown',
+              url: downloadURL,
+              path: `users/${userId}/${fileId}`,
+              userId: userId, // ✅ This must match the authenticated user
+              uploadedAt: serverTimestamp(),
+              fileId: fileId,
+              createdAt: new Date().toISOString()
+            };
+            
+            console.log('💾 Saving to Firestore with userId:', userId);
+            
+            // ✅ Use addDoc
+            const docRef = await addDoc(collection(db, 'files'), fileData);
+            console.log('✅ Saved with ID:', docRef.id);
+            
+            resolve({ ...fileData, id: docRef.id });
+          } catch (error) {
+            console.error('❌ Error saving metadata:', error);
+            reject(error);
+          }
+        }
+      );
+    });
+  } catch (error) {
+    console.error('❌ Upload function error:', error);
+    throw error;
+  }
 };
 
 export const getUserFiles = (userId) => {
@@ -83,16 +102,34 @@ export const deleteFile = async (fileId, filePath) => {
 };
 
 export const listenToUserFiles = (userId, callback) => {
+  console.log('🔍 listenToUserFiles called for userId:', userId);
+  
   const q = query(
     collection(db, 'files'),
     where('userId', '==', userId),
     orderBy('uploadedAt', 'desc')
   );
+  
   return onSnapshot(q, (snapshot) => {
+    console.log('📄 Firestore snapshot received');
+    console.log('📄 Total documents:', snapshot.size);
+    
     const files = [];
     snapshot.forEach((doc) => {
-      files.push({ id: doc.id, ...doc.data() });
+      const data = doc.data();
+      console.log(`📄 Document ${doc.id}:`, data);
+      
+      // ✅ Verify the userId matches
+      if (data.userId === userId) {
+        files.push({ id: doc.id, ...data });
+      } else {
+        console.warn(`⚠️ Document ${doc.id} has userId ${data.userId}, expected ${userId}`);
+      }
     });
+    
+    console.log(`📄 Returning ${files.length} files`);
     callback(files);
+  }, (error) => {
+    console.error('❌ Firestore snapshot error:', error);
   });
 };

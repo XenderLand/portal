@@ -13,62 +13,69 @@ const FileUpload = ({ onUploadComplete, setIsUploading }) => {
   const [failedFiles, setFailedFiles] = useState([]);
   // const [isDragging, setIsDragging] = useState(false);
 
+
   const onDrop = useCallback(async (acceptedFiles) => {
-    if (!user) {
-      toast.error('Please sign in first');
-      return;
+  console.log('📥 Files dropped:', acceptedFiles);
+  
+  if (!user) {
+    console.error('❌ No user logged in');
+    toast.error('Please sign in first');
+    return;
+  }
+
+  console.log('👤 Current user:', user.uid, user.email);
+
+  // Check file size (max 100MB)
+  const maxSize = 100 * 1024 * 1024;
+  const validFiles = acceptedFiles.filter(file => file.size <= maxSize);
+  
+  if (validFiles.length !== acceptedFiles.length) {
+    toast.warning('Some files exceed the 100MB limit and were skipped');
+  }
+
+  if (validFiles.length === 0) return;
+
+  const fileNames = validFiles.map(f => f.name);
+  setUploadingFiles(prev => [...prev, ...fileNames]);
+  setIsUploading(true);
+
+  for (const file of validFiles) {
+    try {
+      console.log(`📤 Uploading: ${file.name} (${file.size} bytes)`);
+      setUploadProgress(prev => ({ ...prev, [file.name]: 0 }));
+      
+      await uploadFile(file, user.uid, (progress) => {
+        setUploadProgress(prev => ({ ...prev, [file.name]: progress }));
+      });
+
+      console.log(`✅ Uploaded: ${file.name}`);
+      toast.success(`${file.name} uploaded successfully!`);
+      
+      setUploadingFiles(prev => prev.filter(name => name !== file.name));
+      setCompletedFiles(prev => [...prev, file.name]);
+      setUploadProgress(prev => {
+        const newState = { ...prev };
+        delete newState[file.name];
+        return newState;
+      });
+
+    } catch (error) {
+      console.error(`❌ Failed to upload ${file.name}:`, error);
+      toast.error(`Failed to upload ${file.name}: ${error.message}`);
+      setUploadingFiles(prev => prev.filter(name => name !== file.name));
+      setFailedFiles(prev => [...prev, file.name]);
+      setUploadProgress(prev => {
+        const newState = { ...prev };
+        delete newState[file.name];
+        return newState;
+      });
     }
+  }
 
-    // Check file size (max 100MB)
-    const maxSize = 100 * 1024 * 1024;
-    const validFiles = acceptedFiles.filter(file => file.size <= maxSize);
-    
-    if (validFiles.length !== acceptedFiles.length) {
-      toast.warning('Some files exceed the 100MB limit and were skipped');
-    }
+  setIsUploading(false);
+  onUploadComplete();
+}, [user, setIsUploading, onUploadComplete]);
 
-    if (validFiles.length === 0) return;
-
-    // Add files to uploading list
-    const fileNames = validFiles.map(f => f.name);
-    setUploadingFiles(prev => [...prev, ...fileNames]);
-    setIsUploading(true);
-
-    for (const file of validFiles) {
-      try {
-        setUploadProgress(prev => ({ ...prev, [file.name]: 0 }));
-        
-        await uploadFile(file, user.uid, (progress) => {
-          setUploadProgress(prev => ({ ...prev, [file.name]: progress }));
-        });
-
-        toast.success(`${file.name} uploaded successfully!`);
-        
-        // Move from uploading to completed
-        setUploadingFiles(prev => prev.filter(name => name !== file.name));
-        setCompletedFiles(prev => [...prev, file.name]);
-        setUploadProgress(prev => {
-          const newState = { ...prev };
-          delete newState[file.name];
-          return newState;
-        });
-
-      } catch (error) {
-        console.error('Upload error:', error);
-        toast.error(`Failed to upload ${file.name}: ${error.message}`);
-        setUploadingFiles(prev => prev.filter(name => name !== file.name));
-        setFailedFiles(prev => [...prev, file.name]);
-        setUploadProgress(prev => {
-          const newState = { ...prev };
-          delete newState[file.name];
-          return newState;
-        });
-      }
-    }
-
-    setIsUploading(false);
-    onUploadComplete();
-  }, [user, setIsUploading, onUploadComplete]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,

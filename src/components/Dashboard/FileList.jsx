@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { deleteFile } from '../../services/firebase';
 import { toast } from 'react-toastify';
-import { File, Download, Trash2, Copy, Check, Clock, Calendar } from 'lucide-react';
+import { File, Download, Trash2, Copy, Check, Clock, Calendar, User, RefreshCw } from 'lucide-react';
 
-const FileList = ({ files, refreshTrigger }) => {
+const FileList = ({ files, refreshTrigger, onRefresh }) => {
   const { user } = useAuth();
   const [deleting, setDeleting] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
+
+  // ✅ Debug: Log files when they change
+  useEffect(() => {
+    console.log('📄 FileList received files:', files);
+    console.log('📄 Number of files:', files.length);
+    
+    // Log each file's details
+    files.forEach((file, index) => {
+      console.log(`📄 File ${index + 1}:`, {
+        id: file.id,
+        name: file.name,
+        userId: file.userId,
+        uploadedAt: file.uploadedAt
+      });
+    });
+  }, [files]);
 
   const handleDelete = async (fileId, filePath) => {
     if (!window.confirm('Are you sure you want to delete this file?')) return;
@@ -66,14 +82,23 @@ const FileList = ({ files, refreshTrigger }) => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <h3 className="text-lg font-semibold">Your Files</h3>
-          {/* ✅ Using user here */}
           {user && (
-            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-              {user.email || 'User'}
+            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full flex items-center gap-1">
+              <User className="h-3 w-3" />
+              {user.displayName || user.email?.split('@')[0] || 'User'}
             </span>
           )}
         </div>
-        <span className="text-sm text-gray-400">{files.length} files</span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onRefresh}
+            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition"
+            title="Refresh files"
+          >
+            <RefreshCw className="h-4 w-4" />
+          </button>
+          <span className="text-sm text-gray-400">{files.length} files</span>
+        </div>
       </div>
 
       {files.map((file) => (
@@ -89,7 +114,7 @@ const FileList = ({ files, refreshTrigger }) => {
               
               <div className="min-w-0 flex-1">
                 <p className="font-medium truncate">{file.name}</p>
-                <div className="flex items-center gap-4 text-sm text-gray-400">
+                <div className="flex items-center gap-4 text-sm text-gray-400 flex-wrap">
                   <span>{formatSize(file.size)}</span>
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
@@ -99,6 +124,13 @@ const FileList = ({ files, refreshTrigger }) => {
                     <Clock className="h-3 w-3" />
                     {file.type || 'Unknown type'}
                   </span>
+                  {/* ✅ Show file owner */}
+                  {user && (
+                    <span className="flex items-center gap-1 text-primary/60">
+                      <User className="h-3 w-3" />
+                      {user.email?.split('@')[0] || 'me'}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

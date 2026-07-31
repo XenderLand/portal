@@ -29,8 +29,10 @@ import {
   UserCheck,
 
   Clock,
+  UserPlus,
 
 } from 'lucide-react';
+import CreateUserModal from './CreateUserModal';
 
 const UserManagement = () => {
   const { user: currentUser } = useAuth();
@@ -46,7 +48,7 @@ const UserManagement = () => {
   const [userStats, setUserStats] = useState(null);
   const [roleFilter, setRoleFilter] = useState('all');
   const [sortBy, setSortBy] = useState('createdAt');
-
+  const [showCreateModal, setShowCreateModal] = useState(false);
   // Load users
   useEffect(() => {
     loadUsers();
@@ -65,6 +67,19 @@ const UserManagement = () => {
       setLoading(false);
     }
   };
+
+   const handleUserCreated = (result) => {
+    // Show the generated credentials to the admin
+    toast.success(
+      `User created: ${result.email} | Password: ${result.password}`,
+      { autoClose: 10000 } // Keep visible longer so admin can copy
+    );
+    
+    // Optionally show a modal with the credentials
+    // setNewUserCredentials(result);
+    // loadUsers(); // Refresh user list
+  };
+
 
   // Filter and search users
   useEffect(() => {
@@ -250,6 +265,20 @@ const UserManagement = () => {
           </button>
         </div>
       </div>
+            <button
+        onClick={() => setShowCreateModal(true)}
+        className="flex items-center gap-2 px-4 py-2 bg-primary text-black rounded-lg font-semibold hover:bg-primary/90 transition"
+      >
+        <UserPlus className="h-4 w-4" />
+        Create User
+      </button>
+
+      {/* Create User Modal */}
+      <CreateUserModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onUserCreated={handleUserCreated}
+      />
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-4">

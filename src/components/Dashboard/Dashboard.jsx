@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import FileUpload from './FileUpload';
 import FileList from './FileList';
@@ -11,19 +11,32 @@ const Dashboard = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+  // ✅ Use useCallback for the handler
+  const handleUploadComplete = useCallback(() => {
+    setRefreshTrigger(prev => prev + 1);
+    setIsUploading(false);
+  }, []);
+
+  const handleRefresh = useCallback(() => {
+    setRefreshTrigger(prev => prev + 1);
+  }, []);
+
+  // ✅ useEffect with proper dependencies
   useEffect(() => {
     if (!user) return;
+    
+    console.log('🔄 Setting up file listener for user:', user.uid);
+    
     const unsubscribe = listenToUserFiles(user.uid, (fetchedFiles) => {
+      console.log('📄 Files received:', fetchedFiles.length);
       setFiles(fetchedFiles);
     });
 
-    return () => unsubscribe();
-  }, [user]);
-
-  const handleUploadComplete = () => {
-    setRefreshTrigger(prev => prev + 1);
-    setIsUploading(false);
-  };
+    return () => {
+      console.log('🧹 Cleaning up file listener');
+      unsubscribe();
+    };
+  }, [user, refreshTrigger]); // ✅ Add refreshTrigger as dependency
 
   const totalSize = files.reduce((acc, file) => acc + file.size, 0);
   const formattedSize = totalSize > 0 ? (totalSize / (1024 * 1024)).toFixed(2) : '0';
@@ -31,14 +44,14 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-dark">
       <div className="max-w-7xl mx-auto px-4 py-8">
-
-         {isUploading && (
+        {/* Uploading Indicator */}
+        {isUploading && (
           <div className="fixed top-20 right-4 z-50 bg-primary/10 border border-primary/30 rounded-xl px-6 py-3 flex items-center gap-3 animate-pulse">
             <Loader2 className="h-5 w-5 text-primary animate-spin" />
             <span className="text-white font-medium">Uploading files...</span>
           </div>
         )}
-        
+
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white/5 rounded-xl p-6 border border-white/10">
@@ -89,6 +102,7 @@ const Dashboard = () => {
         <FileList 
           files={files} 
           refreshTrigger={refreshTrigger}
+          onRefresh={handleRefresh}
         />
       </div>
     </div>

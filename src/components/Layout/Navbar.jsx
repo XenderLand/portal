@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { logOut } from '../../services/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../services/firebase';
 import { toast } from 'react-toastify';
 import { Upload, LogOut, User, Shield } from 'lucide-react';
-import { useAdmin } from '../../hooks/useAdmin';
 
 const Navbar = () => {
   const { user } = useAuth();
-    const { isAdmin } = useAdmin();
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!user) return;
+      try {
+        const userRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          setIsAdmin(userDoc.data().role === 'admin');
+        }
+      } catch (error) {
+        console.error('Error checking admin:', error);
+      }
+    };
+    checkAdmin();
+  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -27,11 +44,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/dashboard')}>
             <Upload className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg">Cdr Adoo's Vault</span>
+            <span className="font-bold text-lg">Secure Upload</span>
           </div>
 
           <div className="flex items-center gap-4">
-                       
             {user && (
               <>
                 <div className="flex items-center gap-2">
@@ -48,20 +64,24 @@ const Navbar = () => {
                   )}
                   <span className="text-sm hidden md:block">{user.displayName}</span>
                 </div>
-                 {isAdmin && (
-       <button
-                onClick={() => navigate('/admin')}
-                className="flex text-primary border border-primary px-2 py-1 rounded-md hover:text-primary/80 transition"
-              >
-                <Shield className="h-5 w-5 mr-1 " /> Admin
-              </button>
-      )}
-                 <button
-                                 onClick={handleLogout}
-                                 className=" flex px-2 py-1 border border-red-500 hover:bg-white/10 rounded-lg transition text-red-500 hover:text-white"
-                               >
-                                 <LogOut className="h-4 w-4 mr-1" /> Logout
-                               </button>
+
+                {isAdmin && (
+                  <button
+                    onClick={() => navigate('/admin')}
+                    className="flex items-center gap-1 px-3 py-1.5 border border-primary text-primary hover:bg-primary/10 rounded-lg transition text-sm"
+                  >
+                    <Shield className="h-4 w-4" />
+                    <span className="hidden sm:inline">Admin</span>
+                  </button>
+                )}
+
+                <button
+                  onClick={handleLogout}
+                  className="flex px-3 py-1.5 border border-red-500 hover:bg-red-500/10 rounded-lg transition text-red-500 hover:text-red-400 items-center gap-1"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span className="hidden sm:inline">Logout</span>
+                </button>
               </>
             )}
           </div>
