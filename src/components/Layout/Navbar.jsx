@@ -4,9 +4,11 @@ import { useAuth } from '../../hooks/useAuth';
 import { logOut } from '../../services/firebase';
 import { toast } from 'react-toastify';
 import { Upload, LogOut, User, Shield } from 'lucide-react';
+import { useAdmin } from '../../hooks/useAdmin';
 
 const Navbar = () => {
   const { user } = useAuth();
+    const { isAdmin } = useAdmin();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -25,18 +27,24 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/dashboard')}>
             <Upload className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg">SecureUpload</span>
+            <span className="font-bold text-lg">Cdr Addo's Vault</span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full">
-              <Shield className="h-4 w-4 text-primary" />
-              <span className="text-sm text-gray-400">Secure</span>
-            </div>
-            
+          <div className="flex items-center gap-4">           
             {user && (
               <>
-                <div className="flex items-center gap-2">
+               
+                 {isAdmin ? (
+        <button
+          onClick={() => navigate('/admin')}
+          className="flex text-primary hover:text-primary/80 transition"
+        >
+          <Shield className="h-5 w-5" /> Admin
+        </button>
+                     
+      ):(    
+        <>
+       <div className="flex items-center gap-2">
                   {user.photoURL ? (
                     <img 
                       src={user.photoURL} 
@@ -47,9 +55,13 @@ const Navbar = () => {
                     <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
                       <User className="h-4 w-4 text-primary" />
                     </div>
+                    
                   )}
-                  <span className="text-sm hidden md:block">{user.displayName || 'User'}</span>
                 </div>
+                      <span className="text-sm hidden md:block">{user.displayName}</span>
+                       </>
+
+ )}
                 <button
                   onClick={handleLogout}
                   className="p-2 hover:bg-white/10 rounded-lg transition text-gray-400 hover:text-white"

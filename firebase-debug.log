@@ -1,0 +1,270 @@
+[debug] [2026-07-31T02:54:11.337Z] ----------------------------------------------------------------------
+[debug] [2026-07-31T02:54:11.348Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Jamal\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2026-07-31T02:54:11.350Z] CLI Version:   15.25.1
+[debug] [2026-07-31T02:54:11.351Z] Platform:      win32
+[debug] [2026-07-31T02:54:11.351Z] Node Version:  v22.14.0
+[debug] [2026-07-31T02:54:11.352Z] Detected Agent: unknown
+[debug] [2026-07-31T02:54:11.353Z] Time:          Fri Jul 31 2026 03:54:11 GMT+0100 (British Summer Time)
+[debug] [2026-07-31T02:54:11.353Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Jamal\Desktop\portal
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-07-31T02:55:10.507Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-07-31T02:55:10.508Z] > authorizing via signed-in user (jamalraj67@gmail.com)
+[debug] [2026-07-31T02:55:10.589Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:10.590Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:10.593Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/xendermall [none]
+[debug] [2026-07-31T02:55:11.488Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/xendermall 200
+[debug] [2026-07-31T02:55:11.489Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/xendermall {"projectId":"xendermall","projectNumber":"1011886710791","displayName":"XenderMall","name":"projects/xendermall","resources":{"hostingSite":"xendermall"},"state":"ACTIVE","labels":{"firebase":"enabled","firebase/storage-default-bucket":"created"},"etag":"1_634c46e0-94db-4906-a9d0-8c09aa928514"}
+[info] i  Using project xendermall (XenderMall) . 
+[info] 
+=== Firestore Setup
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2026-07-31T02:55:11.517Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:11.518Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:11.518Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/xendermall/databases [none]
+[debug] [2026-07-31T02:55:14.328Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/xendermall/databases 200
+[debug] [2026-07-31T02:55:14.328Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/xendermall/databases {"databases":[{"name":"projects/xendermall/databases/(default)","uid":"588b68a1-436e-4a1f-b91b-aea412abe152","createTime":"2024-11-20T18:41:34.447803Z","updateTime":"2024-11-20T18:41:34.447803Z","locationId":"europe-west2","type":"FIRESTORE_NATIVE","concurrencyMode":"PESSIMISTIC","versionRetentionPeriod":"3600s","earliestVersionTime":"2026-07-31T01:55:14.709628Z","appEngineIntegrationMode":"DISABLED","keyPrefix":"g","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED","deleteProtectionState":"DELETE_PROTECTION_DISABLED","databaseEdition":"STANDARD","freeTier":true,"realtimeUpdatesMode":"REALTIME_UPDATES_MODE_ENABLED","etag":"IPa+34r1+5UDMNWWr/jw+5UD"}]}
+[info] 
+[info] Firestore Security Rules allow you to define how and when to allow
+[info] requests. You can keep these rules in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2026-07-31T02:55:18.602Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:18.602Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:18.603Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/xendermall/releases pageSize=10&pageToken=
+[debug] [2026-07-31T02:55:19.489Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/xendermall/releases 200
+[debug] [2026-07-31T02:55:19.489Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/xendermall/releases {"releases":[{"name":"projects/xendermall/releases/cloud.firestore","rulesetName":"projects/xendermall/rulesets/6d9b22f9-f59e-46e0-965e-97192f8c88ac","createTime":"2024-11-20T18:41:38.828346Z","updateTime":"2026-07-31T02:50:55.324471Z"},{"name":"projects/xendermall/releases/firebase.storage/xendermall.firebasestorage.app","rulesetName":"projects/xendermall/rulesets/1a94825d-6843-452a-a385-5e38b3daebf3","createTime":"2026-07-31T02:52:47.877558Z","updateTime":"2026-07-31T02:53:52.231784Z"}]}
+[debug] [2026-07-31T02:55:19.524Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:19.524Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:19.525Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/xendermall/rulesets/6d9b22f9-f59e-46e0-965e-97192f8c88ac [none]
+[debug] [2026-07-31T02:55:19.848Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/xendermall/rulesets/6d9b22f9-f59e-46e0-965e-97192f8c88ac 200
+[debug] [2026-07-31T02:55:19.849Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/xendermall/rulesets/6d9b22f9-f59e-46e0-965e-97192f8c88ac [omitted]
+[info] i  Downloaded the existing Firestore Security Rules from the Firebase console 
+[info] 
+[info] Firestore indexes allow you to perform complex queries while
+[info] maintaining performance that scales with the size of the result
+[info] set. You can keep index definitions in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2026-07-31T02:55:28.871Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:28.871Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:28.872Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:28.873Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:28.874Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/xendermall/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2026-07-31T02:55:28.880Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/xendermall/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2026-07-31T02:55:29.874Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/xendermall/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 200
+[debug] [2026-07-31T02:55:29.875Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/xendermall/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"fields":[{"name":"projects/xendermall/databases/(default)/collectionGroups/__default__/fields/*","indexConfig":{"indexes":[{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"ASCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"DESCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","arrayConfig":"CONTAINS"}],"state":"READY"}]}}]}
+[debug] [2026-07-31T02:55:29.879Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/xendermall/databases/(default)/collectionGroups/-/indexes 200
+[debug] [2026-07-31T02:55:29.879Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/xendermall/databases/(default)/collectionGroups/-/indexes {}
+[info] i  Downloaded the existing Firestore indexes from the Firebase console 
+[info] i  firestore.indexes.json is unchanged 
+[info] +  Wrote firestore.rules 
+[info] 
+=== Functions Setup
+[debug] [2026-07-31T02:55:29.896Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-07-31T02:55:29.897Z] > authorizing via signed-in user (jamalraj67@gmail.com)
+[debug] [2026-07-31T02:55:29.897Z] [iam] checking project xendermall for permissions ["firebase.projects.get"]
+[debug] [2026-07-31T02:55:29.899Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:29.899Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T02:55:29.900Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:testIamPermissions [none]
+[debug] [2026-07-31T02:55:29.901Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:testIamPermissions  x-goog-user-project=xendermall
+[debug] [2026-07-31T02:55:29.901Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2026-07-31T02:55:31.487Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:testIamPermissions 200
+[debug] [2026-07-31T02:55:31.487Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] +  Wrote functions/package.json 
+[info] i  functions/index.js is unchanged 
+[info] i  functions/.gitignore is unchanged 
+[info] 
+=== App Hosting Setup
+[debug] [2026-07-31T03:02:21.460Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:21.460Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:21.461Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/xendermall/billingInfo [none]
+[debug] [2026-07-31T03:02:21.461Z] >>> [apiv2][(partial)header] GET https://cloudbilling.googleapis.com/v1/projects/xendermall/billingInfo  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:23.248Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/xendermall/billingInfo 200
+[debug] [2026-07-31T03:02:23.248Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/xendermall/billingInfo {"name":"projects/xendermall/billingInfo","projectId":"xendermall","billingAccountName":"billingAccounts/013140-38A3B2-45A471","billingEnabled":true}
+[debug] [2026-07-31T03:02:23.252Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:23.252Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:23.253Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/firebaseapphosting.googleapis.com [none]
+[debug] [2026-07-31T03:02:23.254Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/firebaseapphosting.googleapis.com  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:25.477Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/firebaseapphosting.googleapis.com 200
+[debug] [2026-07-31T03:02:25.477Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/firebaseapphosting.googleapis.com [omitted]
+[debug] [2026-07-31T03:02:25.479Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:25.480Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:25.480Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/xendermall/services/firebaseapphosting.googleapis.com:enable [none]
+[debug] [2026-07-31T03:02:25.480Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/xendermall/services/firebaseapphosting.googleapis.com:enable  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:31.013Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/xendermall/services/firebaseapphosting.googleapis.com:enable 200
+[debug] [2026-07-31T03:02:31.014Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/xendermall/services/firebaseapphosting.googleapis.com:enable [omitted]
+[debug] [2026-07-31T03:02:41.140Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.141Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.143Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.144Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.147Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.147Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.150Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.150Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.153Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.154Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.157Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.157Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:41.158Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/developerconnect.googleapis.com [none]
+[debug] [2026-07-31T03:02:41.158Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/developerconnect.googleapis.com  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:41.165Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/cloudbuild.googleapis.com [none]
+[debug] [2026-07-31T03:02:41.165Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/cloudbuild.googleapis.com  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:41.170Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/secretmanager.googleapis.com [none]
+[debug] [2026-07-31T03:02:41.170Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/secretmanager.googleapis.com  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:41.173Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/run.googleapis.com [none]
+[debug] [2026-07-31T03:02:41.174Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/run.googleapis.com  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:41.178Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/artifactregistry.googleapis.com [none]
+[debug] [2026-07-31T03:02:41.180Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/artifactregistry.googleapis.com  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:41.183Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/iam.googleapis.com [none]
+[debug] [2026-07-31T03:02:41.184Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/iam.googleapis.com  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:43.407Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/iam.googleapis.com 200
+[debug] [2026-07-31T03:02:43.408Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/iam.googleapis.com [omitted]
+[debug] [2026-07-31T03:02:43.501Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/run.googleapis.com 200
+[debug] [2026-07-31T03:02:43.501Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/run.googleapis.com [omitted]
+[debug] [2026-07-31T03:02:43.628Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/secretmanager.googleapis.com 200
+[debug] [2026-07-31T03:02:43.628Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/secretmanager.googleapis.com [omitted]
+[debug] [2026-07-31T03:02:43.756Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/developerconnect.googleapis.com 200
+[debug] [2026-07-31T03:02:43.756Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/developerconnect.googleapis.com [omitted]
+[debug] [2026-07-31T03:02:43.757Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:43.757Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:43.757Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/xendermall/services/developerconnect.googleapis.com:enable [none]
+[debug] [2026-07-31T03:02:43.758Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/xendermall/services/developerconnect.googleapis.com:enable  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:43.765Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/cloudbuild.googleapis.com 200
+[debug] [2026-07-31T03:02:43.766Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/cloudbuild.googleapis.com [omitted]
+[debug] [2026-07-31T03:02:43.870Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/artifactregistry.googleapis.com 200
+[debug] [2026-07-31T03:02:43.871Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/xendermall/services/artifactregistry.googleapis.com [omitted]
+[debug] [2026-07-31T03:02:44.575Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/xendermall/services/developerconnect.googleapis.com:enable 200
+[debug] [2026-07-31T03:02:44.575Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/xendermall/services/developerconnect.googleapis.com:enable [omitted]
+[debug] [2026-07-31T03:02:54.595Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:54.595Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:54.597Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts/firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com:testIamPermissions [none]
+[debug] [2026-07-31T03:02:54.598Z] >>> [apiv2][(partial)header] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts/firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com:testIamPermissions  x-goog-user-project=xendermall
+[debug] [2026-07-31T03:02:54.598Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts/firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-07-31T03:02:59.053Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts/firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com:testIamPermissions 404
+[debug] [2026-07-31T03:02:59.054Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts/firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com:testIamPermissions {"error":{"code":404,"message":"Unknown service account","status":"NOT_FOUND"}}
+[debug] [2026-07-31T03:02:59.056Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:59.057Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:02:59.057Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts [none]
+[debug] [2026-07-31T03:02:59.058Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts {"accountId":"firebase-app-hosting-compute","serviceAccount":{"displayName":"Firebase App Hosting compute service account","description":"Default service account used to run builds and deploys for Firebase App Hosting"}}
+[debug] [2026-07-31T03:03:00.598Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts 200
+[debug] [2026-07-31T03:03:00.598Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/xendermall/serviceAccounts [omitted]
+[debug] [2026-07-31T03:03:00.599Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:03:00.600Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:03:00.600Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:getIamPolicy [none]
+[debug] [2026-07-31T03:03:04.798Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:getIamPolicy 200
+[debug] [2026-07-31T03:03:04.798Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:getIamPolicy {"version":1,"etag":"BwZX32uLt5U=","bindings":[{"role":"roles/cloudbuild.builds.builder","members":["serviceAccount:1011886710791@cloudbuild.gserviceaccount.com"]},{"role":"roles/cloudbuild.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-cloudbuild.iam.gserviceaccount.com"]},{"role":"roles/cloudfunctions.serviceAgent","members":["serviceAccount:service-1011886710791@gcf-admin-robot.iam.gserviceaccount.com"]},{"role":"roles/containerregistry.ServiceAgent","members":["serviceAccount:service-1011886710791@containerregistry.iam.gserviceaccount.com"]},{"role":"roles/editor","members":["serviceAccount:1011886710791-compute@developer.gserviceaccount.com","serviceAccount:1011886710791@cloudservices.gserviceaccount.com","serviceAccount:xendermall@appspot.gserviceaccount.com"]},{"role":"roles/firebase.managementServiceAgent","members":["serviceAccount:firebase-service-account@firebase-sa-management.iam.gserviceaccount.com","serviceAccount:service-1011886710791@gcp-sa-firebase.iam.gserviceaccount.com"]},{"role":"roles/firebase.sdkAdminServiceAgent","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/firebaseauth.admin","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/firebasemods.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firebasemods.iam.gserviceaccount.com"]},{"role":"roles/firebaserules.system","members":["serviceAccount:service-1011886710791@firebase-rules.iam.gserviceaccount.com"]},{"role":"roles/firebasestorage.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firebasestorage.iam.gserviceaccount.com"]},{"role":"roles/firestore.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firestore.iam.gserviceaccount.com"]},{"role":"roles/iam.serviceAccountTokenCreator","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/owner","members":["user:jamalraj67@gmail.com"]},{"role":"roles/run.serviceAgent","members":["serviceAccount:service-1011886710791@serverless-robot-prod.iam.gserviceaccount.com"]},{"role":"roles/storage.admin","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]}]}
+[debug] [2026-07-31T03:03:04.800Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:03:04.800Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:03:04.801Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:setIamPolicy [none]
+[debug] [2026-07-31T03:03:04.801Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:setIamPolicy {"policy":{"version":1,"etag":"BwZX32uLt5U=","bindings":[{"role":"roles/cloudbuild.builds.builder","members":["serviceAccount:1011886710791@cloudbuild.gserviceaccount.com"]},{"role":"roles/cloudbuild.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-cloudbuild.iam.gserviceaccount.com"]},{"role":"roles/cloudfunctions.serviceAgent","members":["serviceAccount:service-1011886710791@gcf-admin-robot.iam.gserviceaccount.com"]},{"role":"roles/containerregistry.ServiceAgent","members":["serviceAccount:service-1011886710791@containerregistry.iam.gserviceaccount.com"]},{"role":"roles/editor","members":["serviceAccount:1011886710791-compute@developer.gserviceaccount.com","serviceAccount:1011886710791@cloudservices.gserviceaccount.com","serviceAccount:xendermall@appspot.gserviceaccount.com"]},{"role":"roles/firebase.managementServiceAgent","members":["serviceAccount:firebase-service-account@firebase-sa-management.iam.gserviceaccount.com","serviceAccount:service-1011886710791@gcp-sa-firebase.iam.gserviceaccount.com"]},{"role":"roles/firebase.sdkAdminServiceAgent","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com","serviceAccount:firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com"]},{"role":"roles/firebaseauth.admin","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/firebasemods.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firebasemods.iam.gserviceaccount.com"]},{"role":"roles/firebaserules.system","members":["serviceAccount:service-1011886710791@firebase-rules.iam.gserviceaccount.com"]},{"role":"roles/firebasestorage.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firebasestorage.iam.gserviceaccount.com"]},{"role":"roles/firestore.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firestore.iam.gserviceaccount.com"]},{"role":"roles/iam.serviceAccountTokenCreator","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/owner","members":["user:jamalraj67@gmail.com"]},{"role":"roles/run.serviceAgent","members":["serviceAccount:service-1011886710791@serverless-robot-prod.iam.gserviceaccount.com"]},{"role":"roles/storage.admin","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/firebaseapphosting.computeRunner","members":["serviceAccount:firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com"]},{"role":"roles/developerconnect.readTokenAccessor","members":["serviceAccount:firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com"]},{"role":"roles/storage.objectViewer","members":["serviceAccount:firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com"]}]},"updateMask":"bindings"}
+[debug] [2026-07-31T03:03:06.236Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:setIamPolicy 200
+[debug] [2026-07-31T03:03:06.237Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/xendermall:setIamPolicy {"version":1,"etag":"BwZX3215oBw=","bindings":[{"role":"roles/cloudbuild.builds.builder","members":["serviceAccount:1011886710791@cloudbuild.gserviceaccount.com"]},{"role":"roles/cloudbuild.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-cloudbuild.iam.gserviceaccount.com"]},{"role":"roles/cloudfunctions.serviceAgent","members":["serviceAccount:service-1011886710791@gcf-admin-robot.iam.gserviceaccount.com"]},{"role":"roles/containerregistry.ServiceAgent","members":["serviceAccount:service-1011886710791@containerregistry.iam.gserviceaccount.com"]},{"role":"roles/developerconnect.readTokenAccessor","members":["serviceAccount:firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com"]},{"role":"roles/editor","members":["serviceAccount:1011886710791-compute@developer.gserviceaccount.com","serviceAccount:1011886710791@cloudservices.gserviceaccount.com","serviceAccount:xendermall@appspot.gserviceaccount.com"]},{"role":"roles/firebase.managementServiceAgent","members":["serviceAccount:firebase-service-account@firebase-sa-management.iam.gserviceaccount.com","serviceAccount:service-1011886710791@gcp-sa-firebase.iam.gserviceaccount.com"]},{"role":"roles/firebase.sdkAdminServiceAgent","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com","serviceAccount:firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com"]},{"role":"roles/firebaseapphosting.computeRunner","members":["serviceAccount:firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com"]},{"role":"roles/firebaseauth.admin","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/firebasemods.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firebasemods.iam.gserviceaccount.com"]},{"role":"roles/firebaserules.system","members":["serviceAccount:service-1011886710791@firebase-rules.iam.gserviceaccount.com"]},{"role":"roles/firebasestorage.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firebasestorage.iam.gserviceaccount.com"]},{"role":"roles/firestore.serviceAgent","members":["serviceAccount:service-1011886710791@gcp-sa-firestore.iam.gserviceaccount.com"]},{"role":"roles/iam.serviceAccountTokenCreator","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/owner","members":["user:jamalraj67@gmail.com"]},{"role":"roles/run.serviceAgent","members":["serviceAccount:service-1011886710791@serverless-robot-prod.iam.gserviceaccount.com"]},{"role":"roles/storage.admin","members":["serviceAccount:firebase-adminsdk-95nou@xendermall.iam.gserviceaccount.com"]},{"role":"roles/storage.objectViewer","members":["serviceAccount:firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com"]}]}
+[info] i  This command links your local project to Firebase App Hosting. You will be able to deploy your web app with `firebase deploy` after setup. 
+[info] i  === Set up your backend 
+[debug] [2026-07-31T03:04:57.914Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:04:57.915Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:04:57.915Z] >>> [apiv2][query] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations 
+[debug] [2026-07-31T03:04:59.818Z] <<< [apiv2][status] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations 200
+[debug] [2026-07-31T03:04:59.819Z] <<< [apiv2][body] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations {"locations":[{"name":"projects/xendermall/locations/asia-east1","locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/xendermall/locations/asia-southeast1","locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/xendermall/locations/europe-west4","locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/xendermall/locations/us-central1","locationId":"us-central1","displayName":"Iowa"},{"name":"projects/xendermall/locations/us-east4","locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/xendermall/locations/us-east5","locationId":"us-east5","displayName":"Columbus"}]}
+[info] +  Location set to us-east4.
+ 
+[debug] [2026-07-31T03:05:29.957Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:29.958Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:29.958Z] >>> [apiv2][query] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/backends/portalbackend [none]
+[debug] [2026-07-31T03:05:32.210Z] <<< [apiv2][status] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/backends/portalbackend 404
+[debug] [2026-07-31T03:05:32.210Z] <<< [apiv2][body] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/backends/portalbackend {"error":{"code":404,"message":"Resource 'projects/xendermall/locations/us-east4/backends/portalbackend' was not found","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.rpc.ResourceInfo","resourceName":"projects/xendermall/locations/us-east4/backends/portalbackend"}]}}
+[info] +  Name set to portalbackend
+ 
+[debug] [2026-07-31T03:05:32.213Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:32.214Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:32.214Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps pageSize=100
+[debug] [2026-07-31T03:05:33.114Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps 200
+[debug] [2026-07-31T03:05:33.115Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps {"apps":[{"name":"projects/xendermall/webApps/1:1011886710791:web:10cf240f2e1f43d84a8aa2","appId":"1:1011886710791:web:10cf240f2e1f43d84a8aa2","displayName":"Storage Portal","projectId":"xendermall","webId":"MDQ4OTQxNjktY2NjNy00NGFkLTg2ODItN2E4ZWZhMzc0YTU2","apiKeyId":"8c79bf70-0f5a-400d-9206-d1be5e516a2c","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z","etag":"1_608efb97-687f-4253-9119-9c13b45d9312"}]}
+[debug] [2026-07-31T03:05:33.116Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:33.116Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:33.116Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps pageSize=100
+[debug] [2026-07-31T03:05:33.747Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps 200
+[debug] [2026-07-31T03:05:33.748Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps {"apps":[{"name":"projects/xendermall/webApps/1:1011886710791:web:10cf240f2e1f43d84a8aa2","appId":"1:1011886710791:web:10cf240f2e1f43d84a8aa2","displayName":"Storage Portal","projectId":"xendermall","webId":"MDQ4OTQxNjktY2NjNy00NGFkLTg2ODItN2E4ZWZhMzc0YTU2","apiKeyId":"8c79bf70-0f5a-400d-9206-d1be5e516a2c","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z","etag":"1_608efb97-687f-4253-9119-9c13b45d9312"}]}
+[debug] [2026-07-31T03:05:33.749Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:33.749Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:33.750Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps [none]
+[debug] [2026-07-31T03:05:33.750Z] >>> [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps {"displayName":"portalbackend"}
+[debug] [2026-07-31T03:05:36.738Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps 200
+[debug] [2026-07-31T03:05:36.738Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/xendermall/webApps {"name":"operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm"}
+[debug] [2026-07-31T03:05:36.742Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:36.742Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:36.743Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm [none]
+[debug] [2026-07-31T03:05:38.566Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm 200
+[debug] [2026-07-31T03:05:38.566Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm {"name":"operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm"}
+[debug] [2026-07-31T03:05:39.080Z] [Create Web app Poller] Retrying task index 0
+[debug] [2026-07-31T03:05:39.080Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:39.081Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:39.081Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm [none]
+[debug] [2026-07-31T03:05:39.671Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm 200
+[debug] [2026-07-31T03:05:39.671Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm {"name":"operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm"}
+[debug] [2026-07-31T03:05:40.673Z] [Create Web app Poller] Retrying task index 0
+[debug] [2026-07-31T03:05:40.674Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:40.674Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:40.674Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm [none]
+[debug] [2026-07-31T03:05:41.287Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm 200
+[debug] [2026-07-31T03:05:41.287Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm {"name":"operations/workflows/NjgyYmQ5YTAtMDZiMC00NWYyLThlYTUtZGE2MjVmYmZkOTZm","done":true,"response":{"@type":"type.googleapis.com/google.firebase.service.v1beta1.WebApp","name":"projects/xendermall/webApps/1:1011886710791:web:df8dbe3f41b99df64a8aa2","appId":"1:1011886710791:web:df8dbe3f41b99df64a8aa2","displayName":"portalbackend","projectId":"xendermall","webId":"Mjc5ZTM0MGUtY2RiOC00YTZjLTkwM2EtNWE2ZTllOWViYTA0","apiKeyId":"8c79bf70-0f5a-400d-9206-d1be5e516a2c","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z","etag":"1_e08c1a7c-d5b2-4655-a970-20b37cf38699"}}
+[info] +  Created a new Firebase web app named "portalbackend" 
+[debug] [2026-07-31T03:05:41.332Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:41.332Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:05:41.333Z] >>> [apiv2][query] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/supportedRuntimes [none]
+[debug] [2026-07-31T03:05:48.741Z] <<< [apiv2][status] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/supportedRuntimes 200
+[debug] [2026-07-31T03:05:48.741Z] <<< [apiv2][body] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/supportedRuntimes {"supportedRuntimes":[{"name":"projects/xendermall/locations/us-east4/supportedRuntimes/nodejs","runtimeId":"nodejs"},{"name":"projects/xendermall/locations/us-east4/supportedRuntimes/nodejs22","runtimeId":"nodejs22","automaticBaseImageUpdatesSupported":true,"deprecateTime":"2027-04-30T00:00:00Z","decommissionTime":"2027-10-31T00:00:00Z"},{"name":"projects/xendermall/locations/us-east4/supportedRuntimes/nodejs24","runtimeId":"nodejs24","automaticBaseImageUpdatesSupported":true,"deprecateTime":"2028-04-30T00:00:00Z","decommissionTime":"2028-10-31T00:00:00Z"}]}
+[debug] [2026-07-31T03:06:30.210Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:06:30.211Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:06:30.211Z] >>> [apiv2][query] POST https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/backends backendId=portalbackend
+[debug] [2026-07-31T03:06:30.212Z] >>> [apiv2][body] POST https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/backends {"servingLocality":"GLOBAL_ACCESS","labels":{"deployment-tool":"cli-firebase"},"serviceAccount":"firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com","appId":"1:1011886710791:web:df8dbe3f41b99df64a8aa2","runtime":{"value":"nodejs22"}}
+[debug] [2026-07-31T03:06:31.891Z] <<< [apiv2][status] POST https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/backends 200
+[debug] [2026-07-31T03:06:31.892Z] <<< [apiv2][body] POST https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/backends {"name":"projects/xendermall/locations/us-east4/operations/operation-1785467191834-657df79ba35fd-669d26e9-0a826bc5","metadata":{"@type":"type.googleapis.com/google.firebase.apphosting.v1beta.OperationMetadata","createTime":"2026-07-31T03:06:32.201720794Z","target":"projects/xendermall/locations/us-east4/backends/portalbackend","verb":"create","requestedCancellation":false,"apiVersion":"v1beta"},"done":false}
+[debug] [2026-07-31T03:06:31.892Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:06:31.892Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:06:31.893Z] >>> [apiv2][query] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/operations/operation-1785467191834-657df79ba35fd-669d26e9-0a826bc5 [none]
+[debug] [2026-07-31T03:06:32.659Z] <<< [apiv2][status] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/operations/operation-1785467191834-657df79ba35fd-669d26e9-0a826bc5 200
+[debug] [2026-07-31T03:06:32.659Z] <<< [apiv2][body] GET https://firebaseapphosting.googleapis.com/v1beta/projects/xendermall/locations/us-east4/operations/operation-1785467191834-657df79ba35fd-669d26e9-0a826bc5 {"name":"projects/xendermall/locations/us-east4/operations/operation-1785467191834-657df79ba35fd-669d26e9-0a826bc5","metadata":{"@type":"type.googleapis.com/google.firebase.apphosting.v1beta.OperationMetadata","createTime":"2026-07-31T03:06:32.201720794Z","endTime":"2026-07-31T03:06:32.537619533Z","target":"projects/xendermall/locations/us-east4/backends/portalbackend","verb":"create","requestedCancellation":false,"apiVersion":"v1beta"},"done":true,"response":{"@type":"type.googleapis.com/google.firebase.apphosting.v1beta.Backend","name":"projects/xendermall/locations/us-east4/backends/portalbackend","createTime":"2026-07-31T03:06:32.195485013Z","updateTime":"2026-07-31T03:06:32.533260Z","labels":{"deployment-tool":"cli-firebase"},"uri":"portalbackend--xendermall.us-east4.hosted.app","uid":"b9b61542-e8b9-4530-a76e-51a0915041e7","etag":"-GWnTRqMjvDG6mNUyfngfDXhtPKX3I2IBSDBCG4nIlU","reconciling":false,"servingLocality":"GLOBAL_ACCESS","serviceAccount":"firebase-app-hosting-compute@xendermall.iam.gserviceaccount.com","appId":"1:1011886710791:web:df8dbe3f41b99df64a8aa2","runtime":{"value":"nodejs22"}}}
+[info] i  === Deploy local source setup 
+[info] +  Wrote configuration info to firebase.json 
+[info] i  Writing default settings to apphosting.yaml... 
+[info] +  Wrote C:\Users\Jamal\Desktop\bbDriving\public\apphosting.yaml 
+[info] +  Firebase initialization complete! 
+[info] 
+=== Hosting Setup
+[debug] [2026-07-31T03:15:07.318Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:15:07.318Z] Checked if tokens are valid: true, expires at: 1785468727520
+[debug] [2026-07-31T03:15:07.318Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/xendermall [none]
+[debug] [2026-07-31T03:15:07.327Z] *** [apiv2] error from fetch(https://firebase.googleapis.com/v1beta1/projects/xendermall, {"headers":{},"method":"GET","signal":{}}): Error: getaddrinfo ENOTFOUND firebase.googleapis.com
+[debug] [2026-07-31T03:15:07.328Z] Failed to make request to https://firebase.googleapis.com/v1beta1/projects/xendermall (original: getaddrinfo ENOTFOUND firebase.googleapis.com)
+[debug] [2026-07-31T03:15:07.331Z] FirebaseError: Failed to make request to https://firebase.googleapis.com/v1beta1/projects/xendermall
+    at RetryOperation._fn (C:\Users\Jamal\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:338:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to get Firebase project xendermall. Please make sure the project exists and your account has permission to access it.

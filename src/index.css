@@ -35,3 +35,42 @@
 .glass {
   @apply bg-white/5 backdrop-blur-xl border border-white/10;
 }
+
+@keyframes slide-up {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+/* Scrollable Table Container */
+.admin-table-container {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.admin-table-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.admin-table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-table-container::-webkit-scrollbar-thumb {
+  background: rgba(204, 255, 0, 0.3);
+  border-radius: 3px;
+}
+
+.admin-table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(204, 255, 0, 0.5);
+}

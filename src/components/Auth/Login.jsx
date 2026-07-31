@@ -29,11 +29,11 @@ const Login = () => {
           <div className="inline-flex items-center gap-2 bg-white/5 p-4 rounded-2xl">
             <Upload className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-              Secure Upload
+              Cdr Addo's Vault
             </span>
           </div>
           <h2 className="text-2xl font-bold mt-6">Welcome Back</h2>
-          <p className="text-gray-400 mt-2">Sign in to access your secure upload portal</p>
+          <p className="text-gray-400 mt-2">Sign into Cdr Addo's Vault</p>
         </div>
 
         {/* Sign In Card */}
@@ -81,8 +81,8 @@ const Login = () => {
 
           <div className="space-y-4 text-sm text-gray-400 text-center">
             <p>🔒 End-to-end encryption</p>
-            <p>📁 Files stored securely in Firebase</p>
-            <p>👤 Only you can access your files</p>
+            <p>📁 Files stored securely in the Cloud</p>
+            <p>👤 Only admin can access your files</p>
           </div>
         </div>
       </div>
