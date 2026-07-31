@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithGoogle } from '../../services/firebase';
 import { toast } from 'react-toastify';
@@ -7,17 +7,44 @@ import { Upload } from 'lucide-react';
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const isMounted = useRef(true);
 
-  const handleGoogleSignIn = async () => {
+const handleGoogleSignIn = async () => {
+    // ✅ Prevent multiple clicks
+    if (loading) return;
+    
     try {
       setLoading(true);
-      await signInWithGoogle();
-      toast.success('Welcome back! 🚀');
-      navigate('/dashboard');
+      
+      // ✅ Show loading toast
+      const toastId = toast.loading('Signing in with Google...');
+      
+      const result = await signInWithGoogle();
+      
+      // ✅ Dismiss loading toast
+      toast.dismiss(toastId);
+      
+      if (isMounted.current) {
+        toast.success(`Welcome${result.user.displayName ? `, ${result.user.displayName}` : ''}! 🚀`);
+        navigate('/dashboard');
+      }
     } catch (error) {
-      toast.error(error.message);
+      console.error('Google Sign-In Error:', error);
+      
+      // ✅ Handle specific errors
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.warning('Sign-in cancelled. Please try again.');
+      } else if (error.code === 'auth/popup-blocked') {
+        toast.error('Popup was blocked. Please allow popups for this site.');
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        toast.info('Sign-in request cancelled.');
+      } else {
+        toast.error(error.message || 'Failed to sign in with Google');
+      }
     } finally {
-      setLoading(false);
+      if (isMounted.current) {
+        setLoading(false);
+      }
     }
   };
 
