@@ -58,7 +58,7 @@ const Dashboard = () => {
             <div className="flex items-center gap-3">
               <FolderOpen className="h-8 w-8 text-primary" />
               <div>
-                <p className="text-gray-400 text-sm">Total Files</p>
+                <p className="text-gray-400 text-sm">Total Documents</p>
                 <p className="text-2xl font-bold">{files.length}</p>
               </div>
             </div>

@@ -27,14 +27,13 @@ export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 export const logOut = () => signOut(auth);
 
 
-// Your upload function
 
 // In your upload function
 export const uploadFile = async (file, userId, onProgress) => {
   try {
-    console.log('📤 Uploading for userId:', userId);
     
-    const fileId = `${Date.now()}_${file.name}`;
+    // const fileId = `${file.name}_${Date.now()}`;
+    const fileId = `${file.name}`;
     const storageRef = ref(storage, `users/${userId}/${fileId}`);
     
     const uploadTask = uploadBytesResumable(storageRef, file);

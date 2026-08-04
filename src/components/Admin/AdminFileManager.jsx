@@ -5,6 +5,83 @@ import { getAllFiles } from '../../services/adminFirebase';
 import { toast } from 'react-toastify';
 import { File, Download, Trash2, Copy, Check, Calendar, User, Search, RefreshCw } from 'lucide-react';
 
+// A generic "document with folded corner" page shape, colored and labeled
+// per file type — same convention Explorer/Finder/Drive use for file-type
+// thumbnails. Self-contained inline SVG, no external icon assets needed.
+const DocumentPage = ({ label, bg, fold, text }) => (
+  <svg viewBox="0 0 40 40" className="h-10 w-10 shrink-0" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M8 2h16l8 8v26a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"
+      fill={bg}
+    />
+    <path d="M24 2v8h8z" fill={fold} />
+    {label && (
+      <text
+        x="20"
+        y="27"
+        textAnchor="middle"
+        fontSize="9"
+        fontWeight="700"
+        fontFamily="Arial, sans-serif"
+        fill={text || '#fff'}
+      >
+        {label}
+      </text>
+    )}
+  </svg>
+);
+
+// Maps a MIME type / filename to a document thumbnail spec (colors + label).
+// Falls back to a plain gray page for anything unrecognized.
+const getFileTypeDisplay = (type = '', name = '') => {
+  const ext = name?.split('.').pop()?.toLowerCase() || '';
+
+  if (type?.startsWith('video/')) {
+    return { label: '▶', bg: '#ec4899', fold: '#f472b6' };
+  }
+  if (type?.startsWith('audio/')) {
+    return { label: '♪', bg: '#3b82f6', fold: '#60a5fa' };
+  }
+  if (type === 'application/pdf' || ext === 'pdf') {
+    return { label: 'PDF', bg: '#dc2626', fold: '#f87171' };
+  }
+  if (['xls', 'xlsx', 'csv'].includes(ext) || type?.includes('spreadsheet') || type === 'text/csv') {
+    return { label: 'XLS', bg: '#16a34a', fold: '#4ade80' };
+  }
+  if (['ppt', 'pptx'].includes(ext) || type?.includes('presentation')) {
+    return { label: 'PPT', bg: '#d97706', fold: '#fbbf24' };
+  }
+  if (['doc', 'docx'].includes(ext) || type?.includes('wordprocessingml') || type === 'application/msword') {
+    return { label: 'DOC', bg: '#2563eb', fold: '#60a5fa' };
+  }
+  if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) {
+    return { label: 'ZIP', bg: '#ca8a04', fold: '#fbbf24' };
+  }
+  if (['js', 'jsx', 'ts', 'tsx', 'json', 'html', 'css', 'py', 'java'].includes(ext)) {
+    return { label: '</>', bg: '#0891b2', fold: '#22d3ee' };
+  }
+  if (['txt', 'rtf'].includes(ext) || type === 'text/plain') {
+    return { label: 'TXT', bg: '#64748b', fold: '#94a3b8' };
+  }
+  return { label: ext ? ext.slice(0, 4).toUpperCase() : 'FILE', bg: '#4b5563', fold: '#9ca3af' };
+};
+
+// Shows a real image preview (from the file's stored download URL) for
+// image files, otherwise a colored document-page thumbnail for the type.
+const FileThumbnail = ({ name, type, url }) => {
+  if (type?.startsWith('image/') && url) {
+    return (
+      <img
+        src={url}
+        alt={name}
+        className="h-10 w-10 rounded-lg object-cover border border-white/10 shrink-0"
+      />
+    );
+  }
+
+  return <DocumentPage {...getFileTypeDisplay(type, name)} />;
+};
+
 const AdminFileManager = ({ refreshTrigger }) => {
   const [files, setFiles] = useState([]);
   const [filteredFiles, setFilteredFiles] = useState([]);
@@ -57,9 +134,9 @@ const AdminFileManager = ({ refreshTrigger }) => {
     }
   };
 
-  const handleCopyLink = (url) => {
+  const handleCopyLink = (fileId, url) => {
     navigator.clipboard.writeText(url);
-    setCopiedId(Date.now());
+    setCopiedId(fileId);
     toast.success('Link copied to clipboard');
     setTimeout(() => setCopiedId(null), 2000);
   };
@@ -139,9 +216,7 @@ const AdminFileManager = ({ refreshTrigger }) => {
                   <tr key={file.id} className="border-b border-white/5 hover:bg-white/5 transition">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary/10 rounded-lg">
-                          <File className="h-5 w-5 text-primary" />
-                        </div>
+                        <FileThumbnail name={file.name} type={file.type} url={file.url} />
                         <div>
                           <p className="font-medium truncate max-w-[200px]">{file.name}</p>
                           <p className="text-xs text-gray-400">{file.type || 'Unknown'}</p>
@@ -164,11 +239,11 @@ const AdminFileManager = ({ refreshTrigger }) => {
                     <td className="p-4">
                       <div className="flex items-center justify-center gap-2">
                         <button
-                          onClick={() => handleCopyLink(file.url)}
+                          onClick={() => handleCopyLink(file.id, file.url)}
                           className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition"
                           title="Copy link"
                         >
-                          {copiedId === Date.now() ? (
+                          {copiedId === file.id ? (
                             <Check className="h-4 w-4 text-primary" />
                           ) : (
                             <Copy className="h-4 w-4" />

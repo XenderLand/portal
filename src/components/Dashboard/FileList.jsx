@@ -2,18 +2,107 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { deleteFile } from '../../services/firebase';
 import { toast } from 'react-toastify';
-import { File, Download, Trash2, Copy, Check, Clock, Calendar, User, RefreshCw } from 'lucide-react';
+import {
+  File,
+  Download,
+  Trash2,
+  Copy,
+  Check,
+  Clock,
+  Calendar,
+  User,
+  RefreshCw,
+} from 'lucide-react';
+
+// A generic "document with folded corner" page shape, colored and labeled
+// per file type — the same visual convention Explorer/Finder/Drive use for
+// file-type thumbnails. Renders as a self-contained inline SVG, so no
+// external icon assets or brand logos are needed.
+const DocumentPage = ({ label, bg, fold, text }) => (
+  <svg viewBox="0 0 40 40" className="h-10 w-10 shrink-0" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M8 2h16l8 8v26a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"
+      fill={bg}
+    />
+    <path d="M24 2v8h8z" fill={fold} />
+    {label && (
+      <text
+        x="20"
+        y="27"
+        textAnchor="middle"
+        fontSize="9"
+        fontWeight="700"
+        fontFamily="Arial, sans-serif"
+        fill={text || '#fff'}
+      >
+        {label}
+      </text>
+    )}
+  </svg>
+);
+
+// Maps a MIME type / filename to a document thumbnail spec (colors + label).
+// Falls back to a plain gray page for anything unrecognized.
+const getFileTypeDisplay = (type = '', name = '') => {
+  const ext = name.split('.').pop()?.toLowerCase() || '';
+
+  if (type.startsWith('video/')) {
+    return { label: '▶', bg: '#ec4899', fold: '#f472b6' };
+  }
+  if (type.startsWith('audio/')) {
+    return { label: '♪', bg: '#3b82f6', fold: '#60a5fa' };
+  }
+  if (type === 'application/pdf' || ext === 'pdf') {
+    return { label: 'PDF', bg: '#dc2626', fold: '#f87171' };
+  }
+  if (['xls', 'xlsx', 'csv'].includes(ext) || type.includes('spreadsheet') || type === 'text/csv') {
+    return { label: 'XLS', bg: '#16a34a', fold: '#4ade80' };
+  }
+  if (['ppt', 'pptx'].includes(ext) || type.includes('presentation')) {
+    return { label: 'PPT', bg: '#d97706', fold: '#fbbf24' };
+  }
+  if (['doc', 'docx'].includes(ext) || type.includes('wordprocessingml') || type === 'application/msword') {
+    return { label: 'DOC', bg: '#2563eb', fold: '#60a5fa' };
+  }
+  if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) {
+    return { label: 'ZIP', bg: '#ca8a04', fold: '#fbbf24' };
+  }
+  if (['js', 'jsx', 'ts', 'tsx', 'json', 'html', 'css', 'py', 'java'].includes(ext)) {
+    return { label: '</>', bg: '#0891b2', fold: '#22d3ee' };
+  }
+  if (['txt', 'rtf'].includes(ext) || type === 'text/plain') {
+    return { label: 'TXT', bg: '#64748b', fold: '#94a3b8' };
+  }
+  return { label: ext ? ext.slice(0, 4).toUpperCase() : 'FILE', bg: '#4b5563', fold: '#9ca3af' };
+};
+
+// Shows an actual image preview (from the file's stored download URL) for
+// image files, otherwise a colored document-page thumbnail for the type.
+const FileThumbnail = ({ name, type, url }) => {
+  if (type?.startsWith('image/') && url) {
+    return (
+      <img
+        src={url}
+        alt={name}
+        className="h-10 w-10 rounded-lg object-cover border border-white/10 shrink-0"
+      />
+    );
+  }
+
+  const spec = getFileTypeDisplay(type, name);
+  return <DocumentPage {...spec} />;
+};
 
 const FileList = ({ files, refreshTrigger, onRefresh }) => {
   const { user } = useAuth();
   const [deleting, setDeleting] = useState(null);
-  const [copiedId, setCopiedId] = useState(null);
+  const [copiedFileId, setCopiedFileId] = useState(null);
 
   // ✅ Debug: Log files when they change
   useEffect(() => {
     console.log('📄 FileList received files:', files);
     console.log('📄 Number of files:', files.length);
-    
+
     // Log each file's details
     files.forEach((file, index) => {
       console.log(`📄 File ${index + 1}:`, {
@@ -27,7 +116,7 @@ const FileList = ({ files, refreshTrigger, onRefresh }) => {
 
   const handleDelete = async (fileId, filePath) => {
     if (!window.confirm('Are you sure you want to delete this file?')) return;
-    
+
     try {
       setDeleting(fileId);
       await deleteFile(fileId, filePath);
@@ -40,11 +129,11 @@ const FileList = ({ files, refreshTrigger, onRefresh }) => {
     }
   };
 
-  const handleCopyLink = (url) => {
+  const handleCopyLink = (fileId, url) => {
     navigator.clipboard.writeText(url);
-    setCopiedId(Date.now());
+    setCopiedFileId(fileId);
     toast.success('Link copied to clipboard');
-    setTimeout(() => setCopiedId(null), 2000);
+    setTimeout(() => setCopiedFileId(null), 2000);
   };
 
   const formatDate = (timestamp) => {
@@ -102,16 +191,14 @@ const FileList = ({ files, refreshTrigger, onRefresh }) => {
       </div>
 
       {files.map((file) => (
-        <div 
+        <div
           key={file.id}
           className="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all group"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 min-w-0 flex-1">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <File className="h-6 w-6 text-primary" />
-              </div>
-              
+              <FileThumbnail name={file.name} type={file.type} url={file.url} />
+
               <div className="min-w-0 flex-1">
                 <p className="font-medium truncate">{file.name}</p>
                 <div className="flex items-center gap-4 text-sm text-gray-400 flex-wrap">
@@ -137,17 +224,17 @@ const FileList = ({ files, refreshTrigger, onRefresh }) => {
 
             <div className="flex items-center gap-2">
               <button
-                onClick={() => handleCopyLink(file.url)}
+                onClick={() => handleCopyLink(file.id, file.url)}
                 className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition"
                 title="Copy link"
               >
-                {copiedId === Date.now() ? (
+                {copiedFileId === file.id ? (
                   <Check className="h-4 w-4 text-primary" />
                 ) : (
                   <Copy className="h-4 w-4" />
                 )}
               </button>
-              
+
               <a
                 href={file.url}
                 download={file.name}
@@ -156,7 +243,7 @@ const FileList = ({ files, refreshTrigger, onRefresh }) => {
               >
                 <Download className="h-4 w-4" />
               </a>
-              
+
               <button
                 onClick={() => handleDelete(file.id, file.path)}
                 disabled={deleting === file.id}
