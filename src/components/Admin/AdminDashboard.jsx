@@ -9,6 +9,15 @@ import UserManagement from './UserManagement';
 import FileAnalytics from './FileAnalytics';
 import { getFileAnalytics, getAllFiles, getAllUsers } from '../../services/adminFirebase';
 import { toast } from 'react-toastify';
+import { Menu, Shield } from 'lucide-react';
+
+const TAB_LABELS = {
+  overview: 'Overview',
+  files: 'Files',
+  users: 'Users',
+//   settings: 'Settings',
+  analytics: 'Analytics',
+};
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -19,6 +28,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [lastVisible, setLastVisible] = useState(null);
   const [hasMore, setHasMore] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isAdmin: hookIsAdmin, loading:adminLoading, error } = useAdmin();
 
   const isAdmin = true;
@@ -26,8 +36,7 @@ const AdminDashboard = () => {
   // Debug logs
   console.log('🔍 AdminDashboard: isAdmin =', isAdmin);
   console.log('🔍 AdminDashboard: adminLoading =', adminLoading);
-  console.log('🔍 AdminDashboard: error =', error);
-  console.log('🔍 AdminDashboard: user =', user);
+
   console.log('🔍 AdminDashboard: hookIsAdmin =', hookIsAdmin);
   useEffect(() => {
     console.log('🔍 AdminDashboard: useEffect triggered, isAdmin =', isAdmin);
@@ -38,6 +47,18 @@ const AdminDashboard = () => {
       console.log('❌ AdminDashboard: User is NOT admin');
     }
   }, [isAdmin]);
+
+  // Close the mobile drawer automatically if the viewport grows past the
+  // lg breakpoint (e.g. rotating a tablet, resizing a browser window).
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const loadDashboardData = async () => {
     try {
@@ -120,34 +141,59 @@ const AdminDashboard = () => {
 
   // Check if not admin
   if (!isAdmin) {
-    console.log('🚫 AdminDashboard: User is not admin, redirecting to dashboard');
     return <Navigate to="/dashboard" replace />;
   }
 
-  // Admin dashboard content
-  console.log('✅ AdminDashboard: Rendering admin dashboard');
   return (
     <div className="min-h-screen bg-dark flex">
-      <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <AdminSidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        isMobileOpen={mobileMenuOpen}
+        onMobileClose={() => setMobileMenuOpen(false)}
+      />
 
       <div className="flex-1 lg:ml-64">
+        {/* Mobile top bar — only visible below the lg breakpoint, since the
+            desktop sidebar is always on-screen there and doesn't need this. */}
+        <div className="lg:hidden sticky top-0 z-30 bg-dark-secondary border-b border-white/10 px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Shield className="h-6 w-6 text-primary" />
+            <span className="font-bold">{TAB_LABELS[activeTab] || 'Admin'}</span>
+          </div>
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition"
+            aria-label="Open menu"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
+
         {loading && (
             <div>
                 loading..
             </div>
             
         )}
-        <div className="p-6">
-          <div className="mb-8">
+        <div className="p-4 sm:p-6">
+          <div className="mb-8 hidden lg:block">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
               Admin Dashboard
             </h1>
             <p className="text-gray-400 mt-1">Manage files, users, and monitor system activity</p>
             <div className="mt-2 flex items-center gap-2">
               <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                👑 Admin: {user?.displayName || user?.email}
+                Admin: {user?.displayName || user?.email}
               </span>
             </div>
+          </div>
+
+          {/* Compact admin identity line for mobile, since the full header above is hidden there */}
+          <div className="mb-6 lg:hidden">
+            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+              Admin: {user?.displayName || user?.email}
+            </span>
           </div>
 
           {activeTab === 'overview' && stats && (

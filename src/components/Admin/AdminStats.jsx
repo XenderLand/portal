@@ -5,8 +5,79 @@ import {
   HardDrive, 
   TrendingUp,
   BarChart3,
-  Clock
+  Clock,
+
 } from 'lucide-react';
+
+  const DocumentPage = ({ label, bg, fold, text }) => (
+  <svg viewBox="0 0 40 40" className="h-10 w-10 shrink-0" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M8 2h16l8 8v26a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"
+      fill={bg}
+    />
+    <path d="M24 2v8h8z" fill={fold} />
+    {label && (
+      <text
+        x="20"
+        y="27"
+        textAnchor="middle"
+        fontSize="10"
+        fontWeight="700"
+        fontFamily="Arial, sans-serif"
+        fill={text || '#fff'}
+      >
+        {label}
+      </text>
+    )}
+  </svg>
+);
+
+const getFileTypeDisplay = (type = '', name = '') => {
+  const ext = name?.split('.').pop()?.toLowerCase() || '';
+
+  if (type?.startsWith('video/')) {
+    return { label: '▶', bg: '#ec4899', fold: '#f472b6' };
+  }
+  if (type?.startsWith('audio/')) {
+    return { label: '♪', bg: '#3b82f6', fold: '#60a5fa' };
+  }
+  if (type === 'application/pdf' || ext === 'pdf') {
+    return { label: 'PDF', bg: '#dc2626', fold: '#f87171' };
+  }
+  if (['xls', 'xlsx', 'csv'].includes(ext) || type?.includes('spreadsheet') || type === 'text/csv') {
+    return { label: 'XLS', bg: '#16a34a', fold: '#4ade80' };
+  }
+  if (['ppt', 'pptx'].includes(ext) || type?.includes('presentation')) {
+    return { label: 'PPT', bg: '#d97706', fold: '#fbbf24' };
+  }
+  if (['doc', 'docx'].includes(ext) || type?.includes('wordprocessingml') || type === 'application/msword') {
+    return { label: 'DOC', bg: '#2563eb', fold: '#60a5fa' };
+  }
+  if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) {
+    return { label: 'ZIP', bg: '#ca8a04', fold: '#fbbf24' };
+  }
+  if (['js', 'jsx', 'ts', 'tsx', 'json', 'html', 'css', 'py', 'java'].includes(ext)) {
+    return { label: '</>', bg: '#0891b2', fold: '#22d3ee' };
+  }
+  if (['txt', 'rtf'].includes(ext) || type === 'text/plain') {
+    return { label: 'TXT', bg: '#64748b', fold: '#94a3b8' };
+  }
+  return { label: ext ? ext.slice(0, 4).toUpperCase() : 'FILE', bg: '#4b5563', fold: '#9ca3af' };
+};
+
+const FileThumbnail = ({ name, type, url, size = ' h-14 w-14' }) => {
+  if (type?.startsWith('image/') && url) {
+    return (
+      <img
+        src={url}
+        alt={name}
+        className={`${size} rounded-lg object-cover border border-white/10 shrink-0`}
+      />
+    );
+  }
+
+  return <DocumentPage {...getFileTypeDisplay(type, name)} />;
+};
 
 const AdminStats = ({ stats }) => {
   const formatBytes = (bytes) => {
@@ -68,6 +139,7 @@ const AdminStats = ({ stats }) => {
     }
   ];
 
+
   return (
     <div className="space-y-8">
       {/* Stats Grid */}
@@ -97,10 +169,11 @@ const AdminStats = ({ stats }) => {
       <div className="bg-white/5 rounded-xl p-6 border border-white/10">
         <h3 className="text-lg font-semibold mb-4">File Types Breakdown</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Object.entries(stats.fileTypes).map(([type, count]) => (
-            <div key={type} className="bg-white/5 rounded-lg p-3">
-              <p className="text-sm text-gray-400">{type || 'Unknown'}</p>
-              <p className="text-xl font-bold">{count}</p>
+          {Object.entries(stats.fileTypes).map(([type, count, url, name]) => (
+            <div key={type} className="flex justify-between bg-white/5 rounded-lg p-4  ">
+            <FileThumbnail name={name} type={type} url={url} />
+              {/* <p className="text-sm text-gray-400">{type || 'Unknown'}</p> */}
+              <p className="text-2xl font-bold">{count}</p>
             </div>
           ))}
         </div>

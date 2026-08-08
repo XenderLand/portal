@@ -142,22 +142,6 @@ export const getUserPassword = async (uid) => {
   }
 };
 
-/**
- * Create a new user WITHOUT logging the admin out.
- *
- * ✅ FIXED: The old approach called createUserWithEmailAndPassword() on the
- * *same* auth instance the admin was signed in on. Firebase's client SDK
- * always signs in as the newly created user when you do that — there's no
- * way to opt out. The previous code tried to patch this after the fact by
- * signing out and signing back in as admin, which needed the admin's
- * plaintext password on every call and left a window where the admin was
- * fully logged out (or stuck as the new user) if anything failed in between.
- *
- * The real fix: create the new user on a throwaway secondary Firebase App
- * instance with its own isolated Auth. The admin's session on the primary
- * `auth` instance is never touched, so there's nothing to restore and no
- * admin password required.
- */
 export const createUserCredentials = async (userData) => {
   const {
     username: providedUsername,
@@ -185,11 +169,7 @@ export const createUserCredentials = async (userData) => {
   const secondaryAuth = getAuth(secondaryApp);
 
   try {
-    console.log('👤 Admin creating user (isolated session):', currentUser.uid);
-    console.log('🔑 Creating new user:', username);
 
-    // Create + sign in the new user, but on the SECONDARY auth instance —
-    // the admin's session on the primary `auth` instance is untouched.
     const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
     const newUser = userCredential.user;
     console.log('✅ New user created:', newUser.uid);
@@ -198,8 +178,6 @@ export const createUserCredentials = async (userData) => {
       displayName: displayName || username,
     });
 
-    // Firestore writes use the shared `db`, authenticated as the admin
-    // via the primary app — this part was never the problem.
     await setDoc(doc(db, 'users', newUser.uid), {
       uid: newUser.uid,
       username: username,
@@ -219,7 +197,6 @@ export const createUserCredentials = async (userData) => {
       createdAt: serverTimestamp(),
       createdBy: currentUser.uid,
     });
-    console.log('✅ User + credentials saved');
 
     // Clean up the secondary session/app — doesn't affect the admin at all
     await signOut(secondaryAuth);

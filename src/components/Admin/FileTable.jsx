@@ -190,7 +190,7 @@ const FileTable = ({
                   className="h-4 w-4 rounded border-white/20 bg-white/5 text-primary focus:ring-primary"
                 />
               </th>
-              <th className="p-4 text-left text-sm font-medium text-gray-400">File</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-400">Files</th>
               <th className="p-4 text-left text-sm font-medium text-gray-400">Size</th>
               <th className="p-4 text-left text-sm font-medium text-gray-400">User</th>
               <th className="p-4 text-left text-sm font-medium text-gray-400">Uploaded</th>

@@ -42,8 +42,7 @@ const UserManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
   const [showUserModal, setShowUserModal] = useState(false);
-//   const [showEditModal, setShowEditModal] = useState(false);
-//   const [editingUser, setEditingUser] = useState(null);
+
   const [userFiles, setUserFiles] = useState([]);
   const [userStats, setUserStats] = useState(null);
   const [roleFilter, setRoleFilter] = useState('all');
@@ -68,17 +67,6 @@ const UserManagement = () => {
     }
   };
 
-   const handleUserCreated = (result) => {
-    // Show the generated credentials to the admin
-    toast.success(
-      `User created: ${result.email} | Password: ${result.password}`,
-      { autoClose: 10000 } // Keep visible longer so admin can copy
-    );
-    
-    // Optionally show a modal with the credentials
-    // setNewUserCredentials(result);
-    // loadUsers(); // Refresh user list
-  };
 
 
   // Filter and search users
@@ -277,7 +265,7 @@ const UserManagement = () => {
       <CreateUserModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
-        onUserCreated={handleUserCreated}
+        // onUserCreated={handleUserCreated}
       />
 
       {/* Filters */}
@@ -298,9 +286,9 @@ const UserManagement = () => {
           onChange={(e) => setRoleFilter(e.target.value)}
           className="px-4 py-2 bg-white/5 rounded-lg border border-white/10 focus:border-primary/50 focus:outline-none text-white"
         >
-          <option value="all">All Roles</option>
-          <option value="admin">Admins</option>
-          <option value="user">Users</option>
+          <option className='text-black' value="all">All Roles</option>
+          <option className='text-black' value="admin">Admins</option>
+          <option className='text-black' value="user">Users</option>
         </select>
 
         <select
@@ -308,9 +296,9 @@ const UserManagement = () => {
           onChange={(e) => setSortBy(e.target.value)}
           className="px-4 py-2 bg-white/5 rounded-lg border border-white/10 focus:border-primary/50 focus:outline-none text-white"
         >
-          <option value="createdAt">Sort by: Newest</option>
-          <option value="email">Sort by: Email</option>
-          <option value="displayName">Sort by: Name</option>
+          <option className='text-black' value="createdAt">Sort by: Newest</option>
+          <option className='text-black' value="email">Sort by: Email</option>
+          <option className='text-black' value="displayName">Sort by: Name</option>
         </select>
       </div>
 
@@ -320,11 +308,11 @@ const UserManagement = () => {
           <table className="w-full">
             <thead className="border-b border-white/10 bg-white/5">
               <tr>
-                <th className="p-4 text-left text-sm font-medium text-gray-400">User</th>
-                <th className="p-4 text-left text-sm font-medium text-gray-400">Email</th>
-                <th className="p-4 text-left text-sm font-medium text-gray-400">Role</th>
-                <th className="p-4 text-left text-sm font-medium text-gray-400">Joined</th>
-                <th className="p-4 text-center text-sm font-medium text-gray-400">Actions</th>
+                <th className="p-4 text-left text-sm font-medium text-gray-200">User</th>
+                <th className="p-4 text-left text-sm font-medium text-gray-200">Email</th>
+                <th className="p-4 text-left text-sm font-medium text-gray-200">Role</th>
+                <th className="p-4 text-left text-sm font-medium text-gray-200">Joined</th>
+                <th className="p-4 text-center text-sm font-medium text-gray-200">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -360,22 +348,22 @@ const UserManagement = () => {
                       </div>
                     </td>
                     <td className="p-4">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs capitalize font-medium ${
                         user.role === 'admin' 
-                          ? 'bg-primary/20 text-primary' 
-                          : 'bg-gray-500/20 text-gray-400'
+                          ? 'bg-primary/20 capitalize text-primary' 
+                          : 'bg-gray-500/20 capitalize text-gray-200'
                       }`}>
                         {user.role === 'admin' ? (
-                          <Shield className="h-3 w-3" />
+                          <Shield className="h-4 w-4" />
                         ) : (
-                          <UserCheck className="h-3 w-3" />
+                          <UserCheck className="h-4 w-4" />
                         )}
                         {user.role || 'user'}
                       </span>
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-2 text-sm text-gray-400">
-                        <Calendar className="h-3 w-3" />
+                        <Calendar className="h-4 w-4" />
                         {formatDate(user.createdAt)}
                       </div>
                     </td>
@@ -386,7 +374,7 @@ const UserManagement = () => {
                           className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition"
                           title="View Details"
                         >
-                          <Eye className="h-4 w-4" />
+                          <Eye className="h-6 w-6 text-cyan-400" />
                         </button>
 
                         <button
@@ -395,9 +383,9 @@ const UserManagement = () => {
                           title={user.role === 'admin' ? 'Remove Admin' : 'Make Admin'}
                         >
                           {user.role === 'admin' ? (
-                            <ShieldOff className="h-4 w-4" />
+                            <ShieldOff className="h-6 w-6 text-primary/50" />
                           ) : (
-                            <Shield className="h-4 w-4" />
+                            <Shield className="h-6 w-6 text-primary" />
                           )}
                         </button>
 
@@ -407,7 +395,7 @@ const UserManagement = () => {
                             className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
                             title="Delete User"
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Trash2 className="h-6 w-6 text-red-600" />
                           </button>
                         )}
                       </div>
@@ -451,16 +439,17 @@ const UserManagement = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/5 rounded-lg p-4">
                   <p className="text-sm text-gray-400">User ID</p>
-                  <p className="font-mono text-sm truncate">{selectedUser.uid}</p>
+                  <p className="font-mono text-sm truncate">{selectedUser.username}</p>
                 </div>
                 <div className="bg-white/5 rounded-lg p-4">
-                  <p className="text-sm text-gray-400">Role</p>
-                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                  <p className="text-sm text-gray-400">Password</p>
+                    <p className="font-mono text-sm truncate">{selectedUser.password}</p>
+                  {/* <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                     selectedUser.role === 'admin' ? 'bg-primary/20 text-primary' : 'bg-gray-500/20 text-gray-400'
                   }`}>
                     {selectedUser.role === 'admin' ? <Shield className="h-3 w-3" /> : <UserCheck className="h-3 w-3" />}
                     {selectedUser.role || 'user'}
-                  </span>
+                  </span> */}
                 </div>
                 <div className="bg-white/5 rounded-lg p-4">
                   <p className="text-sm text-gray-400">Joined</p>

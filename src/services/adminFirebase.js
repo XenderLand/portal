@@ -126,6 +126,25 @@ export const getAllUsers = async () => {
   }
 };
 
+// Get all users
+// export const getAllUserCredentials = async () => {
+//   try {
+//     const CredentialsRef = collection(db, 'usersCredentials');
+//     const snapshot = await getDocs(CredentialsRef);
+//     const credentials = [];
+//     snapshot.forEach((doc) => {
+//       credentials.push({ 
+//         uid: doc.id, 
+//         ...doc.data() 
+//       });
+//     });
+//     return credentials;
+//   } catch (error) {
+//     console.error('Error getting credentials:', error);
+//     throw error;
+//   }
+// };
+
 // Get user by ID
 export const getUserById = async (userId) => {
   try {

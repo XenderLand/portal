@@ -3,10 +3,9 @@ import { createUserCredentials, generateUserFriendlyPassword, isUsernameAvailabl
 import { toast } from 'react-toastify';
 import { X, UserPlus, Copy, Eye, EyeOff, RefreshCw, User, Check, AlertCircle, Key } from 'lucide-react';
 
-const CreateUserModal = ({ isOpen, onClose, onUserCreated }) => {
+const CreateUserModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     username: '',
-    displayName: '',
     password: '',
     passwordLength: 10,
     autoGeneratePassword: true
@@ -81,7 +80,6 @@ const CreateUserModal = ({ isOpen, onClose, onUserCreated }) => {
       const result = await createUserCredentials({
         username: formData.username,
         password: formData.password || undefined,
-        displayName: formData.displayName || formData.username,
         passwordLength: formData.passwordLength
       });
       
@@ -89,7 +87,7 @@ const CreateUserModal = ({ isOpen, onClose, onUserCreated }) => {
       
       toast.success(
         <div>
-          <div className="font-bold text-lg">✅ User Created!</div>
+          <div className="font-bold text-lg">User Created!</div>
           <div className="mt-2 space-y-1">
             <div><span className="text-gray-400">Username:</span> <span className="font-mono text-primary">{result.username}</span></div>
             <div><span className="text-gray-400">Password:</span> <span className="font-mono text-yellow-400">{result.password}</span></div>
@@ -98,10 +96,8 @@ const CreateUserModal = ({ isOpen, onClose, onUserCreated }) => {
         { autoClose: 15000 }
       );
       
-      // Reset form
       setFormData({
         username: '',
-        displayName: '',
         password: '',
         passwordLength: 10,
         autoGeneratePassword: true
@@ -110,12 +106,9 @@ const CreateUserModal = ({ isOpen, onClose, onUserCreated }) => {
       setGeneratedPassword('');
       setShowPassword(false);
       
-      if (onUserCreated) {
-        onUserCreated(result);
-      }
-      
+         
     } catch (error) {
-      console.error('❌ Create user error:', error);
+      console.error('Create user error:', error);
       
       if (error.message.includes('already taken')) {
         toast.error(error.message);
@@ -204,7 +197,7 @@ const CreateUserModal = ({ isOpen, onClose, onUserCreated }) => {
           </div>
 
           {/* Display Name */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">
               <span className="flex items-center gap-1">
                 <User className="h-4 w-4" />
@@ -218,7 +211,7 @@ const CreateUserModal = ({ isOpen, onClose, onUserCreated }) => {
               placeholder="John Doe"
               className="w-full px-4 py-2 bg-white/5 rounded-lg border border-white/10 focus:border-primary/50 focus:outline-none text-white"
             />
-          </div>
+          </div> */}
 
           {/* Password Options */}
           <div className="space-y-3 bg-white/5 rounded-xl p-4 border border-white/10">
